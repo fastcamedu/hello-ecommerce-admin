@@ -1,0 +1,11 @@
+# default server port
+server:
+  port: 8080
+
+# Live Reload, Cache setting
+spring:
+  devtools:
+    livereload:
+      enabled: true
+  thymeleaf:
+    cache: false

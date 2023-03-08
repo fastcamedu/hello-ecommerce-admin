@@ -1,0 +1,36 @@
+package com.fastcampus.ecommerce.admin.controller;
+
+import com.fastcampus.ecommerce.admin.domain.product.ProductDetailView;
+import com.fastcampus.ecommerce.admin.exception.ProductNotFoundException;
+import com.fastcampus.ecommerce.admin.service.ProductService;
+import com.fastcampus.ecommerce.admin.service.dto.ProductDTO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+import java.util.Optional;
+
+@Controller
+@RequiredArgsConstructor
+public class ProductController {
+
+    private final ProductService productService;
+
+    @GetMapping(value = {"/products", "/products/"})
+    public String list(Model model) {
+        List<ProductDTO> productDTOS = productService.findAll();
+        model.addAttribute("products", productDTOS);
+        return "/products/products";
+    }
+
+    @GetMapping("/products/product-detail")
+    public String detail(@RequestParam Long productId, Model model) {
+        Optional<ProductDetailView> optionalProductDetailView = productService.getProductDetail(productId);
+        ProductDetailView productDetailView = optionalProductDetailView.orElseThrow(() -> new ProductNotFoundException("Not found product info"));
+        model.addAttribute("productDetail", productDetailView);
+        return "/products/product-detail";
+    }
+}
