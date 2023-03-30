@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Controller
@@ -19,10 +20,10 @@ public class AdminUserController {
     private final AdminUserDetailService adminUserDetailService;
     private final PasswordEncoder passwordEncoder;
 
-    @GetMapping(value = "/users/register")
+    @GetMapping(value = "/users/sign-up")
     public String adminUserForm(Model model) {
         log.info(">>> 회원 가입 폼");
-        return "/users/register";
+        return "/users/sign-up";
     }
 
     @PostMapping(value = "/users/register")
@@ -31,5 +32,14 @@ public class AdminUserController {
         AdminUser newAdminUser = AdminUser.createAdminUser(adminUserFormDTO, passwordEncoder);
         AdminUser savedAdminuser = adminUserDetailService.save(newAdminUser);
         return "redirect:/";
+    }
+
+    @GetMapping(value = "/users/login")
+    public String loginForm(@RequestParam(value = "error", defaultValue = "false") boolean error, Model model) {
+        if (error) {
+            model.addAttribute("loginFailure", true);
+            model.addAttribute("loginFailureMessage", "아이디와 패스워드를 확인하시고 다시 로그인해주세요.");
+        }
+        return "/users/login";
     }
 }

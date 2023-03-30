@@ -29,17 +29,25 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .authorizeRequests()
                 .antMatchers("/img/**", "/js/**", "/css/**", "/scss/**", "/vendor/**",
-                        "/users/register", "/error"
+                        "/users/sign-up", "/users/login", "/error",
+                        "/hello",
+                        "/users/register"
                 )
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
+                .loginPage("/users/login")
                 .defaultSuccessUrl(DEFAULT_HOME_URL)
+                .usernameParameter("email")
+                .failureUrl("/users/login?error=true")
                 .permitAll()
                 .and()
                 .logout()
-                .logoutSuccessUrl(DEFAULT_HOME_URL);
+                .logoutSuccessUrl("/users/login")
+                .invalidateHttpSession(true);
+
+        httpSecurity.exceptionHandling().authenticationEntryPoint(new SimpleAuthenticationEntryPoint());
     }
     @Bean
     public PasswordEncoder bPasswordEncoder() {

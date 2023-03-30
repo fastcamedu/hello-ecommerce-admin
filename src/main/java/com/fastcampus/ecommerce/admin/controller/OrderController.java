@@ -17,13 +17,14 @@ import java.util.Optional;
 @AllArgsConstructor
 public class OrderController {
 
-    public static final String ATTRIBUTE_KEY_ORDERS = "orders";
+    public static final String MENU_KEY = "orders";
     private final OrderService orderService;
 
     @GetMapping({"/orders/", "/orders"})
     public String index(Model model) {
         List<OrderDetailView> orderDetailViews = orderService.findAllOrderDetailView();
         model.addAttribute("orders", orderDetailViews);
+        model.addAttribute("menuId", MENU_KEY);
         return "/orders/orders";
     }
 
@@ -32,6 +33,7 @@ public class OrderController {
         Optional<OrderDTO> optionalOrderDTO = orderService.findById(orderId);
         OrderDTO orderDTO = optionalOrderDTO.orElseThrow(() -> new NotFoundOrderException("Not found order info"));
         model.addAttribute("order", orderDTO);
+        model.addAttribute("menuId", MENU_KEY);
         return "/orders/order-detail";
     }
 }
