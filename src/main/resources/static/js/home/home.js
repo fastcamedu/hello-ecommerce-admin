@@ -1,4 +1,4 @@
-const salesMetricUrl = "http://localhost:8080/api/sales-per-categories";
+const salesMetricUrl = "http://localhost:8081/api/sales-per-categories";
 $(function () {
     $.ajax({
         dataType: "json",

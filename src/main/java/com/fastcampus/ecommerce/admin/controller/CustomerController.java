@@ -19,7 +19,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class CustomerController {
     private final CustomerService customerService;
-    private static final String CUSTOMERS_ATTRIBUTE_KEY = "customers";
+    private static final String ATTRIBUTE_KEY_CUSTOMERS = "customers";
+    private static final String MENU_KEY = "customers";
 
     @GetMapping(value = {"/customers", "/customers/"})
     public String index(Model model) {
@@ -35,7 +36,8 @@ public class CustomerController {
                         customer.getUpdatedAt()
                 ))
                 .collect(Collectors.toList());
-        model.addAttribute(CUSTOMERS_ATTRIBUTE_KEY, customerDTOs);
+        model.addAttribute(ATTRIBUTE_KEY_CUSTOMERS, customerDTOs);
+        model.addAttribute("menuId", MENU_KEY);
         return "/customers/customers";
     }
 
@@ -43,6 +45,7 @@ public class CustomerController {
     public String detail(@RequestParam Long customerId, Model model) {
         Customer customer = customerService.findById(customerId).orElseThrow(() -> new NotFoundCustomerException("고객 정보를 찾을 수 없습니다." + customerId));
         model.addAttribute("customer", customer);
+        model.addAttribute("menuId", MENU_KEY);
         return "/customers/customer-detail";
     }
 }

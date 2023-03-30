@@ -17,12 +17,15 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProductController {
 
+    private static final String MENU_KEY = "products";
+
     private final ProductService productService;
 
     @GetMapping(value = {"/products", "/products/"})
     public String list(Model model) {
         List<ProductDTO> productDTOS = productService.findAll();
         model.addAttribute("products", productDTOS);
+        model.addAttribute("menuId", MENU_KEY);
         return "/products/products";
     }
 
@@ -31,6 +34,7 @@ public class ProductController {
         Optional<ProductDetailView> optionalProductDetailView = productService.getProductDetail(productId);
         ProductDetailView productDetailView = optionalProductDetailView.orElseThrow(() -> new ProductNotFoundException("Not found product info"));
         model.addAttribute("productDetail", productDetailView);
+        model.addAttribute("menuId", MENU_KEY);
         return "/products/product-detail";
     }
 }
