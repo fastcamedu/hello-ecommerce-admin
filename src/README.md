@@ -12,6 +12,12 @@
 - 주문 도메인 API 
   - Port: 8082
 
+## 프로젝트 구성 버전
+- 웹 프레임워크: ```spring boot 2.7.6```
+- 템플릿 언어: ```thymeleaf```
+- 템플릿 레이아웃 지원: ```thymeleaf-layout-dialect:3.0.0```
+- 템플릿 스프링 시큐리티 지원: ```thymeleaf-extras-springsecurity5```
+
 ## Service Flow
 ```mermaid
 flowchart LR
@@ -19,10 +25,10 @@ Client --> Admin --> API
 ```
 
 ## Admin 계정 등록
-- http://localhost:8081/users/register
+- http://localhost:8081/users/sign-up
 
 # Concept
-서비스 개선의 컨셉 단계
+- 이커머스 서비스를 관리하기 위한 간단한 샘플 어드민 형태
 
 ## Phase 0
 초기 데이터베이스 사용 단계
